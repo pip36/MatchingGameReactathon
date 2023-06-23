@@ -11,7 +11,7 @@ export const Game: FC = () => {
     width: '50px',
     overflow: 'hidden',
     borderRadius: '4px',
-    color: 'blue',
+    backgroundColor: '#1F85DE',
     verticalAlign: 'middle',
     padding: '10px 15px',
   }
@@ -27,14 +27,14 @@ export const Game: FC = () => {
           justifyContent="center"
           style={paperStyle}
         >
-          {tile.value}
+          {tile.flipped ? tile.value : ''}
         </Paper>
       </Grid>
     )
   })
 
   return (
-    <Grid container spacing={24}>
+    <Grid style={{ width: '400px' }} container spacing={2}>
       {grid}
     </Grid>
   )
