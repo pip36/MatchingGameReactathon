@@ -19,6 +19,9 @@ export const Game: FC = () => {
 
   const { gameState, flipCard } = useGameState()
 
+  if (gameState.isFinished) {
+  }
+
   const grid = gameState.tiles.map((tile) => {
     return (
       <Grid item md={3} key={tile.id} onClick={() => flipCard(tile.id)}>
