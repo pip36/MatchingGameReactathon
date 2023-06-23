@@ -1,10 +1,10 @@
 import { FC } from 'react'
 import { CssBaseline, ThemeProvider } from '@mui/material'
-import { HomePage } from './pages/HomePage'
+import { GamePage } from './pages/GamePage'
 
 export const App: FC = () => (
   <ThemeProvider theme={{}}>
     <CssBaseline />
-    <HomePage />
+    <GamePage />
   </ThemeProvider>
 )
