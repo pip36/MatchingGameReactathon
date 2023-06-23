@@ -4,6 +4,8 @@ import { CenteredContent } from '@/components/CenteredContent/CenteredContent'
 import { Colors } from '@/constants/styles'
 import { MainPageWrapper } from './GamePage.styles'
 import { useGameState } from '@/util/GameState'
+import useWindowSize from 'react-use/lib/useWindowSize'
+import Confetti from 'react-confetti'
 
 export const Game: FC = () => {
   const paperStyle = {
@@ -23,9 +25,6 @@ export const Game: FC = () => {
 
   listener.onMatch((...args) => console.log('MATCHED', args))
 
-  if (gameState.isFinished) {
-  }
-
   const grid = gameState.tiles.map((tile) => {
     return (
       <Grid item md={3} key={tile.id} onClick={() => flipCard(tile.id)}>
@@ -41,6 +40,17 @@ export const Game: FC = () => {
     )
   })
 
+  const { width, height } = useWindowSize()
+  if (gameState.isFinished) {
+    return (
+      <Confetti width={width} height={height}>
+        <Grid style={{ width: '40%' }} container spacing={2}>
+          {grid}
+        </Grid>
+      </Confetti>
+    )
+  }
+
   return (
     <Grid style={{ width: '40%' }} container spacing={2}>
       {grid}
@@ -51,9 +61,6 @@ export const Game: FC = () => {
 export const GamePage: FC = () => (
   <MainPageWrapper>
     <CenteredContent>
-      <Typography variant="h4" fontWeight={800} color={[Colors.RichBlack]}>
-        The Game...
-      </Typography>
       <Game></Game>
     </CenteredContent>
   </MainPageWrapper>
