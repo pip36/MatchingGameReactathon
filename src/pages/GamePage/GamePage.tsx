@@ -1,13 +1,12 @@
 import { FC } from 'react'
-import { Typography, Grid, Paper, Stack } from '@mui/material'
+import { Typography, Grid, Paper, Stack, Button } from '@mui/material'
 import { CenteredContent } from '@/components/CenteredContent/CenteredContent'
-import { Colors } from '@/constants/styles'
 import { MainPageWrapper } from './GamePage.styles'
 import { useGameState } from '@/util/GameState'
 import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from 'react-confetti'
 
-export const Game: FC = () => {
+export const Game: FC<{ startGame: () => void }> = ({ startGame }) => {
   const paperStyle = {
     height: '200px',
     width: '100px',
@@ -43,11 +42,16 @@ export const Game: FC = () => {
   const { width, height } = useWindowSize()
   if (gameState.isFinished) {
     return (
-      <Confetti width={width} height={height}>
-        <Grid style={{ width: '40%' }} container spacing={2}>
-          {grid}
-        </Grid>
-      </Confetti>
+      <>
+        <Confetti width={width} height={height}>
+          <Grid style={{ width: '40%' }} container spacing={2}>
+            {grid}
+          </Grid>
+        </Confetti>
+        <Button style={{ zIndex: '10000' }} onClick={startGame}>
+          Play Again?
+        </Button>
+      </>
     )
   }
 
@@ -58,10 +62,10 @@ export const Game: FC = () => {
   )
 }
 
-export const GamePage: FC = () => (
+export const GamePage: FC<{ startGame: () => void }> = ({ startGame }) => (
   <MainPageWrapper>
     <CenteredContent>
-      <Game></Game>
+      <Game startGame={startGame}></Game>
     </CenteredContent>
   </MainPageWrapper>
 )

@@ -10,7 +10,7 @@ export const App: FC = () => {
     <ThemeProvider theme={{}}>
       <CssBaseline />
       {page === 'home' && <HomePage startGame={() => setPage('game')} />}
-      {page === 'game' && <GamePage />}
+      {page === 'game' && <GamePage startGame={() => setPage('home')} />}
     </ThemeProvider>
   )
 }
