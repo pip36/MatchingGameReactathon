@@ -34,7 +34,7 @@ export const Game: FC = () => {
   })
 
   return (
-    <Grid container spacing={24}>
+    <Grid container spacing={2}>
       {grid}
     </Grid>
   )
