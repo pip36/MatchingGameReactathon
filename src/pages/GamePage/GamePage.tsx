@@ -20,7 +20,7 @@ export const Game: FC = () => {
 
   const grid = gameState.tiles.map((tile) => {
     return (
-      <Grid item md={3} key={tile.id}>
+      <Grid item md={3} key={tile.id} onClick={() => flipCard(tile.id)}>
         <Paper
           component={Stack}
           direction="column"
