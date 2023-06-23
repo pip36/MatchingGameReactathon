@@ -54,26 +54,26 @@ const handleFlipCard = (
 const handlePairDoesNotMatch = (
   state: GameState,
   _: Action<'PairDoesNotMatch', undefined>['payload']
-): GameState => {
-  const updatedTiles = state.tiles.map((tile) =>
+): GameState => ({
+  ...state,
+  tiles: state.tiles.map((tile) =>
     tile.id === state.firstTile?.id || tile.id === state.secondTile?.id
       ? { ...tile, flipped: false }
       : tile
-  )
-  return { ...state, tiles: updatedTiles, firstTile: undefined, secondTile: undefined }
-}
+  ),
+  firstTile: undefined,
+  secondTile: undefined,
+})
 
 const handlePairMatches = (
   state: GameState,
   _: Action<'PairMatches', undefined>['payload']
-) => {
-  return {
-    ...state,
-    firstTile: undefined,
-    secondTile: undefined,
-    isFinished: state.tiles.every((x) => x.flipped),
-  }
-}
+) => ({
+  ...state,
+  firstTile: undefined,
+  secondTile: undefined,
+  isFinished: state.tiles.every((x) => x.flipped),
+})
 
 const reducer = (state: GameState, action: Actions) => {
   switch (action.type) {
@@ -112,6 +112,12 @@ const initialState = (): GameState => ({
 
 export const useGameState = () => {
   const [state, dispatch] = useReducer(reducer, initialState())
+  const onMatch = useRef<(tileOne: Tile, tileTwo: Tile) => void>(() => {})
+  const listener = useRef({
+    onMatch: (f: (tileOne: Tile, tileTwo: Tile) => void) => {
+      onMatch.current = f
+    },
+  })
   const checkInProgress = useRef(false)
 
   const tileOne = state.firstTile
@@ -123,6 +129,7 @@ export const useGameState = () => {
 
     if (isMatch) {
       dispatch({ type: 'PairMatches', payload: undefined })
+      onMatch?.current(tileOne, tileTwo)
       checkInProgress.current = false
     } else {
       setTimeout(() => {
@@ -135,5 +142,6 @@ export const useGameState = () => {
   return {
     gameState: state,
     flipCard: (id: number) => dispatch({ type: 'FlipCard', payload: { id } }),
+    listen: () => listener.current,
   }
 }
