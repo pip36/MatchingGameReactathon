@@ -8,17 +8,6 @@ import Confetti from 'react-confetti'
 import toast, { Toaster } from 'react-hot-toast'
 
 export const Game: FC<{ startGame: () => void }> = ({ startGame }) => {
-  const paperStyle = {
-    height: '200px',
-    width: '100px',
-    overflow: 'hidden',
-    borderRadius: '4px',
-    backgroundColor: '#1F85DE',
-    verticalAlign: 'middle',
-    padding: '10px 15px',
-    cursor: 'pointer',
-  }
-
   const { gameState, flipCard, listen } = useGameState()
 
   const listener = listen()
@@ -31,10 +20,22 @@ export const Game: FC<{ startGame: () => void }> = ({ startGame }) => {
     return (
       <Grid item md={3} key={tile.id} onClick={() => flipCard(tile.id)}>
         <Paper
+          variant="outlined"
           component={Stack}
           direction="column"
           justifyContent="center"
-          style={paperStyle}
+          style={{
+            height: '200px',
+            textAlign: 'center',
+            border: 'solid',
+            borderColor: '#f9db03',
+            overflow: 'hidden',
+            borderRadius: '1em',
+            backgroundColor: '#1F85DE',
+            verticalAlign: 'middle',
+            padding: '10px 15px',
+            cursor: 'pointer',
+          }}
         >
           <Typography variant="h3">{tile.flipped ? tile.value : ''}</Typography>
         </Paper>
@@ -51,9 +52,7 @@ export const Game: FC<{ startGame: () => void }> = ({ startGame }) => {
             {grid}
           </Grid>
         </Confetti>
-        <Button style={{ zIndex: '10000' }} onClick={startGame}>
-          Play Again?
-        </Button>
+        <Button onClick={startGame}>Play Again?</Button>
       </>
     )
   }
