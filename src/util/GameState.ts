@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react'
+import { useEffect, useReducer, useRef } from 'react'
 
 type Tile = {
   value: string
@@ -21,7 +21,10 @@ type FlipCard = {
   id: number
 }
 
-type Actions = Action<'FlipCard', FlipCard> | Action<'ResetCurrentFlips', undefined>
+type Actions =
+  | Action<'FlipCard', FlipCard>
+  | Action<'PairDoesNotMatch', undefined>
+  | Action<'PairMatches', undefined>
 
 const handleFlipCard = (
   state: GameState,
@@ -47,9 +50,9 @@ const handleFlipCard = (
   return { ...state }
 }
 
-const handleResetCurrentFlips = (
+const handlePairDoesNotMatch = (
   state: GameState,
-  _: Action<'ResetCurrentFlips', undefined>['payload']
+  _: Action<'PairDoesNotMatch', undefined>['payload']
 ): GameState => {
   const updatedTiles = state.tiles.map((tile) =>
     tile.id === state.firstTile?.id || tile.id === state.secondTile?.id
@@ -59,12 +62,21 @@ const handleResetCurrentFlips = (
   return { ...state, tiles: updatedTiles, firstTile: undefined, secondTile: undefined }
 }
 
+const handlePairMatches = (
+  state: GameState,
+  _: Action<'PairMatches', undefined>['payload']
+) => {
+  return { ...state, firstTile: undefined, secondTile: undefined }
+}
+
 const reducer = (state: GameState, action: Actions) => {
   switch (action.type) {
     case 'FlipCard':
       return handleFlipCard(state, action.payload)
-    case 'ResetCurrentFlips':
-      return handleResetCurrentFlips(state, action.payload)
+    case 'PairDoesNotMatch':
+      return handlePairDoesNotMatch(state, action.payload)
+    case 'PairMatches':
+      return handlePairMatches(state, action.payload)
     default:
       return state
   }
@@ -93,14 +105,24 @@ const initialState = (): GameState => ({
 
 export const useGameState = () => {
   const [state, dispatch] = useReducer(reducer, initialState())
+  const checkInProgress = useRef(false)
 
   const tileOne = state.firstTile
   const tileTwo = state.secondTile
 
-  if (tileOne && tileTwo && tileOne.value != tileTwo.value) {
-    setTimeout(() => {
-      dispatch({ type: 'ResetCurrentFlips', payload: undefined })
-    }, 2000)
+  if (tileOne && tileTwo && !checkInProgress.current) {
+    checkInProgress.current = true
+    const isMatch = tileOne.value === tileTwo.value
+
+    if (isMatch) {
+      dispatch({ type: 'PairMatches', payload: undefined })
+      checkInProgress.current = false
+    } else {
+      setTimeout(() => {
+        dispatch({ type: 'PairDoesNotMatch', payload: undefined })
+        checkInProgress.current = false
+      }, 1000)
+    }
   }
 
   return {
