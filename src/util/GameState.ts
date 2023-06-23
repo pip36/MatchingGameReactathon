@@ -127,16 +127,15 @@ export const useGameState = () => {
     checkInProgress.current = true
     const isMatch = tileOne.value === tileTwo.value
 
-    if (isMatch) {
-      dispatch({ type: 'PairMatches', payload: undefined })
-      onMatch?.current(tileOne, tileTwo)
-      checkInProgress.current = false
-    } else {
-      setTimeout(() => {
+    setTimeout(() => {
+      if (isMatch) {
+        dispatch({ type: 'PairMatches', payload: undefined })
+        onMatch?.current(tileOne, tileTwo)
+      } else {
         dispatch({ type: 'PairDoesNotMatch', payload: undefined })
-        checkInProgress.current = false
-      }, 1000)
-    }
+      }
+      checkInProgress.current = false
+    }, 500)
   }
 
   return {

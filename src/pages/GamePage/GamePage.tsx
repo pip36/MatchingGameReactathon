@@ -6,6 +6,7 @@ import { MainPageWrapper } from './GamePage.styles'
 import { useGameState } from '@/util/GameState'
 import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from 'react-confetti'
+import toast, { Toaster } from 'react-hot-toast'
 
 export const Game: FC = () => {
   const paperStyle = {
@@ -23,7 +24,9 @@ export const Game: FC = () => {
 
   const listener = listen()
 
-  listener.onMatch((...args) => console.log('MATCHED', args))
+  listener.onMatch(() => {
+    toast('AWESOME!', { duration: 1000, position: 'bottom-center' })
+  })
 
   const grid = gameState.tiles.map((tile) => {
     return (
@@ -52,9 +55,12 @@ export const Game: FC = () => {
   }
 
   return (
-    <Grid style={{ width: '40%' }} container spacing={2}>
-      {grid}
-    </Grid>
+    <>
+      <Toaster />
+      <Grid style={{ width: '40%' }} container spacing={2}>
+        {grid}
+      </Grid>
+    </>
   )
 }
 
