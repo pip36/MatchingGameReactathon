@@ -17,7 +17,11 @@ export const Game: FC = () => {
     cursor: 'pointer',
   }
 
-  const { gameState, flipCard } = useGameState()
+  const { gameState, flipCard, listen } = useGameState()
+
+  const listener = listen()
+
+  listener.onMatch((...args) => console.log('MATCHED', args))
 
   if (gameState.isFinished) {
   }
