@@ -3,6 +3,7 @@ import { Typography } from '@mui/material'
 import { CenteredContent } from '@/components/CenteredContent/CenteredContent'
 import { Colors } from '@/constants/styles'
 import { MainPageWrapper } from './GamePage.styles'
+import { useGameState } from '@/util/GameState'
 
 export const Game: FC = () => {
   const { gameState, flipCard } = useGameState()

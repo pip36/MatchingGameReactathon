@@ -8,7 +8,7 @@ type GameState = {
   tiles: Tile[]
 }
 
-const useGameState = () => {
+export const useGameState = () => {
   const game: GameState = {
     tiles: [],
   }
