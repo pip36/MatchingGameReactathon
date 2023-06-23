@@ -25,6 +25,18 @@ const handleFlipCard = (
   state: GameState,
   { id }: Action<FlipCard>['payload']
 ): GameState => {
+  const tile = state.tiles.find((x) => x.id == id)
+
+  if (!tile) throw new Error(`Card with id: ${id} does not exist.`)
+
+  if (tile.flipped) {
+    return state
+  }
+
+  if (!tile.flipped) {
+    tile.flipped = true
+  }
+
   return state
 }
 
@@ -37,16 +49,29 @@ const reducer = (state: GameState, action: Actions) => {
   }
 }
 
-const totalTiles = 16
-
-const initialState: GameState = {
-  tiles: new Array(totalTiles)
-    .fill(0)
-    .map((_, i) => ({ id: i, flipped: false, value: '🐱' })),
-}
+const initialState = (): GameState => ({
+  tiles: [
+    { id: 0, flipped: false, value: '🐱' },
+    { id: 0, flipped: false, value: '🐱' },
+    { id: 0, flipped: false, value: '🤢' },
+    { id: 0, flipped: false, value: '🤢' },
+    { id: 0, flipped: false, value: '🐱‍🐉' },
+    { id: 0, flipped: false, value: '🐱‍🐉' },
+    { id: 0, flipped: false, value: '👌' },
+    { id: 0, flipped: false, value: '👌' },
+    { id: 0, flipped: false, value: '👀' },
+    { id: 0, flipped: false, value: '👀' },
+    { id: 0, flipped: false, value: '❌' },
+    { id: 0, flipped: false, value: '❌' },
+    { id: 0, flipped: false, value: '✔' },
+    { id: 0, flipped: false, value: '✔' },
+    { id: 0, flipped: false, value: '🐱‍👓' },
+    { id: 0, flipped: false, value: '🐱‍👓' },
+  ].sort(() => Math.random() - 0.5),
+})
 
 export const useGameState = () => {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(reducer, initialState())
 
   const flipCard = (id: number) => dispatch({ type: 'FlipCard', payload: { id } })
 
