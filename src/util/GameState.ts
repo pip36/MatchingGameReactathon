@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef } from 'react'
+import { useReducer, useRef } from 'react'
 
 type Tile = {
   value: string
@@ -10,6 +10,7 @@ type GameState = {
   tiles: Tile[]
   firstTile?: Tile
   secondTile?: Tile
+  isFinished: boolean
 }
 
 type Action<Name, T> = {
@@ -66,7 +67,12 @@ const handlePairMatches = (
   state: GameState,
   _: Action<'PairMatches', undefined>['payload']
 ) => {
-  return { ...state, firstTile: undefined, secondTile: undefined }
+  return {
+    ...state,
+    firstTile: undefined,
+    secondTile: undefined,
+    isFinished: state.tiles.every((x) => x.flipped),
+  }
 }
 
 const reducer = (state: GameState, action: Actions) => {
@@ -83,6 +89,7 @@ const reducer = (state: GameState, action: Actions) => {
 }
 
 const initialState = (): GameState => ({
+  isFinished: false,
   tiles: [
     { id: 0, flipped: false, value: '🐱' },
     { id: 1, flipped: false, value: '🐱' },
