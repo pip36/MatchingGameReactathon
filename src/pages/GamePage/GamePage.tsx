@@ -33,7 +33,6 @@ export const Game: FC<{ startGame: () => void }> = ({ startGame }) => {
             borderRadius: '1em',
             backgroundColor: '#1F85DE',
             verticalAlign: 'middle',
-            padding: '10px 15px',
             cursor: 'pointer',
           }}
         >
@@ -47,11 +46,7 @@ export const Game: FC<{ startGame: () => void }> = ({ startGame }) => {
   if (gameState.isFinished) {
     return (
       <>
-        <Confetti width={width} height={height}>
-          <Grid style={{ width: '40%' }} container spacing={2}>
-            {grid}
-          </Grid>
-        </Confetti>
+        <Confetti width={width} height={height}></Confetti>
         <Button onClick={startGame}>Play Again?</Button>
       </>
     )
@@ -60,7 +55,7 @@ export const Game: FC<{ startGame: () => void }> = ({ startGame }) => {
   return (
     <>
       <Toaster />
-      <Grid style={{ width: '40%' }} container spacing={2}>
+      <Grid style={{ width: '40%' }} container spacing={1}>
         {grid}
       </Grid>
     </>
