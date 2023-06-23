@@ -7,13 +7,14 @@ import { useGameState } from '@/util/GameState'
 
 export const Game: FC = () => {
   const paperStyle = {
-    height: '100px',
-    width: '50px',
+    height: '200px',
+    width: '100px',
     overflow: 'hidden',
     borderRadius: '4px',
     backgroundColor: '#1F85DE',
     verticalAlign: 'middle',
     padding: '10px 15px',
+    cursor: 'pointer',
   }
 
   const { gameState, flipCard } = useGameState()
@@ -27,14 +28,14 @@ export const Game: FC = () => {
           justifyContent="center"
           style={paperStyle}
         >
-          {tile.flipped ? tile.value : ''}
+          <Typography variant="h3">{tile.flipped ? tile.value : ''}</Typography>
         </Paper>
       </Grid>
     )
   })
 
   return (
-    <Grid style={{ width: '400px' }} container spacing={2}>
+    <Grid style={{ width: '40%' }} container spacing={2}>
       {grid}
     </Grid>
   )
