@@ -1,3 +1,5 @@
+import { useReducer } from 'react'
+
 type Tile = {
   value: string
   flipped: boolean
@@ -8,15 +10,35 @@ type GameState = {
   tiles: Tile[]
 }
 
-export const useGameState = () => {
-  const game: GameState = {
-    tiles: [],
-  }
+type Action<T> = {
+  type: 'FlipCard'
+  payload: T
+}
 
-  const flipCard = (id: number) => undefined
+type FlipCard = {
+  id: number
+}
+
+type Actions = Action<FlipCard>
+
+const reducer = (state: GameState, action: Actions) => {
+  switch (action.type) {
+    case 'FlipCard':
+      return state
+    default:
+      return state
+  }
+}
+
+export const useGameState = () => {
+  const [state, dispatch] = useReducer(reducer, {
+    tiles: [],
+  })
+
+  const flipCard = (id: number) => dispatch({ type: 'FlipCard', payload: { id } })
 
   return {
-    gameState: game,
+    gameState: state,
     flipCard,
   }
 }
