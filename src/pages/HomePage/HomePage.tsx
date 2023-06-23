@@ -4,17 +4,17 @@ import { CenteredContent } from '@/components/CenteredContent/CenteredContent'
 import { Colors } from '@/constants/styles'
 import { MainPageWrapper, RocketIcon } from './HomePage.styles'
 
-export const HomePage: FC = () => (
+export const HomePage: FC<{ startGame: () => void }> = ({ startGame }) => (
   <MainPageWrapper>
     <CenteredContent>
       <Typography variant="h4" fontWeight={800} color={[Colors.RichBlack]}>
-        Vite React App
+        Super Matching Game
       </Typography>
       <Typography variant="subtitle1" fontWeight={600} color={Colors.Rufous}>
-        It&apos;s sooooo fast...
+        Click to start...
       </Typography>
 
-      <RocketIcon onClick={() => window.alert('To Infinity and Beyond!!')} />
+      <RocketIcon onClick={startGame} />
     </CenteredContent>
   </MainPageWrapper>
 )
