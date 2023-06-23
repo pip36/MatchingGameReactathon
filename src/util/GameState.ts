@@ -44,7 +44,7 @@ const handleFlipCard = (
     }
   }
 
-  return state
+  return { ...state }
 }
 
 const handleResetCurrentFlips = (
